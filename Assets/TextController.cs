@@ -52,6 +52,8 @@ public class TextController : MonoBehaviour {
 					if (askey == "Slash"){askey = "/";}
 					if (askey == "Plus"){askey = "+";}
 					if (askey == "Minus"){askey = "-";}	
+					if (askey == "Period"){askey = ".";}	
+					
 
 					inputString += askey;   
 					text.text += askey;
@@ -88,7 +90,7 @@ public class TextController : MonoBehaviour {
 							text.text = "";
 							text.text += "FILE LISTING:\n";
 							text.text += "..\n";
-							text.text += "PASSWORDS.TXT\n";
+							text.text += "EVIL-PLANS.TXT\n";					
 							text.text += "NOTES.TXT";
 						}
 
@@ -98,11 +100,11 @@ public class TextController : MonoBehaviour {
 							text.text += "..\n";
 							text.text += "JOKES.TXT\n";
 							text.text += "SO-BORED-POEM.TXT";
-						}						
-
+						}		
 					}
 
 					if(inputStringArray[0] == "EXIT") {
+						gamestate = States.end;
 						End();
 					}
 
@@ -116,18 +118,26 @@ public class TextController : MonoBehaviour {
 							text.text =  "ADMIN DIRECTORY";
 							path = "ADMIN";
 						}
+						if(inputStringArray[1] == "..") {
+							text.text =  "HOME DIRECTORY";
+							path = "~";
+						}
 					}
 
-					if(inputString == "MV") {
+					if(inputStringArray[0] == "MV") {
 						End();
 					}
 
-					if(inputString == "RM") {
-						End();
+					if(inputStringArray[0] == "RM") {
+						if (path == "ADMIN" && inputStringArray[1] == "EVIL-PLANS.TXT") {
+						text.text = "NOOOO!";
+						gamestate = States.end;
+						}
 					}					
-
-					text.text += "\n@" +path +"/" +user +"$: ";
-					inputString = "";
+					if (gamestate != States.end) {
+						text.text += "\n@" +path +"/" +user +"$: ";
+						inputString = "";
+					}
 				}
 			}
 		}
@@ -149,7 +159,6 @@ public class TextController : MonoBehaviour {
 	
 		void End () {
 			text.text = "Goodbye!";
-			gamestate = States.end;
 		}
 
 }
